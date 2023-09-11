@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question0551 {
     public static boolean checkRecord(String s) {

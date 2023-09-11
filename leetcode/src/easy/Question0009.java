@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question0009 {
     public boolean isPalindrome(int x) {

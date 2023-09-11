@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2469 {
     public double[] convertTemperature(double celsius) {

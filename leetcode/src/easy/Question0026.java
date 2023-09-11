@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question0026 {
     public static int removeDuplicates(int[] nums) {

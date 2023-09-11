@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2235 {
     public int sum(int num1, int num2) {

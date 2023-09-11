@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question0027 {
     public static int removeElement(int[] nums, int val) {

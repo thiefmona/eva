@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2798 {
     public int numberOfEmployeesWhoMetTarget(int[] hours, int target) {

@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2833 {
     public int furthestDistanceFromOrigin(String moves) {

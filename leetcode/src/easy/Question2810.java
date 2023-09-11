@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2810 {
     public String finalString(String s) {

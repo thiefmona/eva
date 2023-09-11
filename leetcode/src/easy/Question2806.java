@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2806 {
     public int accountBalanceAfterPurchase(int purchaseAmount) {

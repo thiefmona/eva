@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question7020 {
     public static int countSymmetricIntegers(int low, int high) {

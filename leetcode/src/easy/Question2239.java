@@ -1,4 +1,4 @@
-package leetcodeEasy;
+package easy;
 
 public class Question2239 {
     public int findClosestNumber(int[] nums) {
