@@ -1,8 +1,6 @@
 package easy;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Easy {
     // 1450
@@ -152,18 +150,186 @@ public class Easy {
         while (n > 0) {
             int i = n % 2;
             n = n / 2;
-            if(n==0){
+            if (n == 0) {
                 break;
             }
             count += n;
-            n=n+i;
+            n = n + i;
+        }
+        return count;
+    }
+
+    /**
+     * Q2169
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public int countOperations(int num1, int num2) {
+        int count = 0;
+        while (num1 != 0 && num2 != 0) {
+            if (num1 >= num2) {
+                num1 = num1 - num2;
+            } else {
+                num2 = num2 - num1;
+            }
+            count++;
         }
         return count;
     }
 
 
+    /**
+     * Q2000
+     *
+     * @param word
+     * @param ch
+     * @return
+     */
+    public String reversePrefix(String word, char ch) {
+        String s = String.valueOf(ch);
+        if (word.contains(s)) {
+            int index = word.indexOf(ch);
+            StringBuilder sb = new StringBuilder();
+            String prefix = word.substring(0, index + 1);
+            sb.append(prefix).reverse();
+            sb.append(word.substring(index + 1));
+            return sb.toString();
+
+        } else {
+            return word;
+        }
+    }
+
+    /**
+     * 2395
+     *
+     * @param nums
+     * @return
+     */
+    public boolean findSubarrays(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (!set.add(nums[i] + nums[i + 1])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 1346
+     *
+     * @param arr
+     * @return
+     */
+    public boolean checkIfExist(int[] arr) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < arr.length; i++) {
+            if (map.containsKey(arr[i] * 2)) {
+                return true;
+            } else if (map.containsKey(arr[i] >> 1)) {
+                int i1 = arr[i] >> 1;
+                if (i1 * 2 == arr[i]) {
+                    return true;
+                } else {
+                    map.put(arr[i], i);
+                }
+            } else {
+                map.put(arr[i], i);
+            }
+        }
+        return false;
+    }
+
+    public boolean uniqueOccurrences(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < arr.length; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        }
+        Set<Integer> set = new HashSet<>();
+        for (Integer num : map.values()) {
+            if (!set.add(num)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 2529
+     *
+     * @param nums
+     * @return
+     */
+    public int maximumCount(int[] nums) {
+        int count = nums.length;
+        int negCount = 0;
+        int zeroCount = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < 0) {
+                negCount++;
+            } else if (nums[i] == 0) {
+                zeroCount++;
+            } else {
+                break;
+            }
+        }
+        return Math.max(negCount, count - negCount - zeroCount);
+    }
+
+    /**
+     * 2678
+     *
+     * @param details
+     * @return
+     */
+    public int countSeniors(String[] details) {
+        int count = 0;
+        for (String detail : details) {
+            if (Integer.valueOf(detail.substring(11, 13)) > 60) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 1437
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public boolean kLengthApart(int[] nums, int k) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                list.add(i);
+            }
+        }
+        if (list.size() < 2) {
+            return true;
+        } else {
+            for (int i = 1; i < list.size(); i++) {
+                if(list.get(i)-list.get(i-1)-1<k){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+
     public static void main(String[] args) {
-        int i = new Easy().numberOfMatches(7);
-        System.out.println(i);
+//        int i = new Easy().numberOfMatches(7);
+//        System.out.println(i);
+//
+//        String str = "123";
+//        String substring = str.substring(3);
+//        System.out.println("demo:" + substring);
+        int[] arr = {1, 2, 3, 4, 5};
+        System.out.println(new Easy().findSubarrays(arr));
     }
 }
