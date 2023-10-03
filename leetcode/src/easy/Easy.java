@@ -313,7 +313,7 @@ public class Easy {
             return true;
         } else {
             for (int i = 1; i < list.size(); i++) {
-                if(list.get(i)-list.get(i-1)-1<k){
+                if (list.get(i) - list.get(i - 1) - 1 < k) {
                     return false;
                 }
             }
@@ -321,15 +321,558 @@ public class Easy {
         }
     }
 
+    /**
+     * 1431
+     *
+     * @param candies
+     * @param extraCandies
+     * @return
+     */
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        List<Boolean> result = new ArrayList<>();
+        int max = -1;
+        for (int candy : candies) {
+            max = Math.max(candy, max);
+        }
+        for (int candy : candies) {
+            if (candy + extraCandies >= max) {
+                result.add(true);
+            } else {
+                result.add(false);
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 1436
+     *
+     * @param paths
+     * @return
+     */
+    public String destCity(List<List<String>> paths) {
+        HashMap<String, String> map = new HashMap<>();
+        for (List<String> path : paths) {
+            map.put(path.get(0), path.get(1));
+        }
+        return getKey(map, map.keySet().iterator().next());
+    }
+
+    private String getKey(HashMap<String, String> map, String key) {
+        if (map.containsKey(key)) {
+            return getKey(map, map.get(key));
+        } else {
+            return key;
+        }
+    }
+
+    /**
+     * @param num
+     * @return
+     */
+    public int maximum69Number(int num) {
+        String s = String.valueOf(num);
+        char[] arr = s.toCharArray();
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == '6') {
+                arr[i] = '9';
+                break;
+            }
+        }
+        return Integer.parseInt(new String(arr));
+    }
+
+    /**
+     * 2247
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public int commonFactors(int a, int b) {
+        // 判断大的数 遍历
+        if (a > b) {
+            return commonFactors(b, a);
+        } else {
+            int count = 0;
+            for (int i = 1; i <= a; i++) {
+                count += (a % i == 0 && b % i == 0) ? 1 : 0;
+            }
+            return count;
+        }
+    }
+
+    /**
+     * 2441
+     *
+     * @param nums
+     * @return
+     */
+    public int findMaxK(int[] nums) {
+        Arrays.sort(nums);
+        // 双指针
+        int left = 0;
+        int right = nums.length - 1;
+        while (nums[left] < 0 && nums[right] > 0) {
+            if (nums[left] * -1 < nums[right]) {
+                right--;
+            } else if (nums[left] * -1 > nums[right]) {
+                left++;
+            } else {
+                return nums[right];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 1913
+     *
+     * @param nums
+     * @return
+     */
+    public int maxProductDifference(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length - 1] * nums[nums.length - 2] - nums[0] * nums[1];
+    }
+
+    /**
+     * 1470
+     *
+     * @param nums
+     * @param n
+     * @return
+     */
+    public int[] shuffle(int[] nums, int n) {
+        // 1 2 3 4 5 6
+        // 1 4 2 5 3 6
+        int[] result = new int[2 * n];
+        for (int i = 0; i < n; i++) {
+            result[2 * i] = nums[i];
+            result[2 * i + 1] = nums[i + n];
+        }
+        return result;
+    }
+
+    /**
+     * 1351
+     *
+     * @param grid
+     * @return
+     */
+    public int countNegatives(int[][] grid) {
+        int count = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int i1 = 0; i1 < grid[i].length; i1++) {
+                if (grid[i][i1] < 0) {
+                    count += grid[i].length - i1;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 1137
+     *
+     * @param n
+     * @return
+     */
+    public int tribonacci(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n < 3) {
+            return 1;
+        }
+        int[] arr = new int[n + 1];
+        arr[0] = 0;
+        arr[1] = 1;
+        arr[2] = 1;
+        for (int i = 3; i <= n; i++) {
+            arr[i] = arr[i - 1] + arr[i - 2] + arr[i - 3];
+        }
+        return arr[n];
+    }
+
+    /**
+     * 1460
+     *
+     * @param target
+     * @param arr
+     * @return
+     */
+    public boolean canBeEqual(int[] target, int[] arr) {
+        Arrays.sort(target);
+        Arrays.sort(arr);
+        for (int i = 0; i < target.length; i++) {
+            if (target[i] != arr[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 2778
+     *
+     * @param nums
+     * @return
+     */
+    public int sumOfSquares(int[] nums) {
+        // 遍历
+        int n = nums.length;
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (n % (i + 1) == 0) {
+                sum += nums[i] * nums[i];
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 2089
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public List<Integer> targetIndices(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                list.add(i);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 1502
+     *
+     * @param arr
+     * @return
+     */
+    public boolean canMakeArithmeticProgression(int[] arr) {
+        if (arr.length == 2) {
+            return true;
+        }
+        Arrays.sort(arr);
+        int interval = arr[1] - arr[0];
+        for (int i = 1; i < arr.length - 1; i++) {
+            if (arr[i + 1] - arr[i] != interval) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 2351
+     *
+     * @param s
+     * @return
+     */
+    public char repeatedCharacter(String s) {
+        Set<Character> set = new HashSet<>();
+        char[] arr = s.toCharArray();
+        for (char c : arr) {
+            if (!set.add(c)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException("非法参数异常");
+    }
+
+    /**
+     * 1920
+     *
+     * @param nums
+     * @return
+     */
+    public int[] buildArray(int[] nums) {
+        int[] result = new int[nums.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = nums[nums[i]];
+        }
+        return result;
+    }
+
+    /**
+     * 1512
+     *
+     * @param nums
+     * @return
+     */
+    public int numIdenticalPairs(int[] nums) {
+        int count = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                count += nums[i] == nums[j] ? 1 : 0;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 0961
+     *
+     * @param nums
+     * @return
+     */
+    public int repeatedNTimes(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            int count = map.getOrDefault(num, 0) + 1;
+            if (count == nums.length / 2) {
+                return num;
+            }
+            map.put(num, count);
+        }
+        throw new IllegalArgumentException("illegal argument");
+    }
+
+    /**
+     * 2778
+     *
+     * @param s
+     * @param letter
+     * @return
+     */
+    public int percentageLetter(String s, char letter) {
+        char[] arr = s.toCharArray();
+        int count = 0;
+        for (char c : arr) {
+            count += c == letter ? 1 : 0;
+        }
+        double var = (double) count / s.length() * 100;
+        return (int) var;
+    }
+
+    /**
+     * 1342
+     *
+     * @param num
+     * @return
+     */
+    public int numberOfSteps(int num) {
+        int steps = 0;
+        while (num > 0) {
+            if (num % 2 == 0) {
+                num /= 2;
+            } else {
+                num -= 1;
+            }
+            steps++;
+        }
+        return steps;
+    }
+
+    /**
+     * 1374
+     *
+     * @param n
+     * @return
+     */
+    public String generateTheString(int n) {
+        char a = 'a';
+        char b = 'b';
+        StringBuilder sb = new StringBuilder();
+        if (n % 2 == 0) {
+            for (int i = 0; i < n - 1; i++) {
+                sb.append(a);
+            }
+            sb.append(b);
+        } else {
+            for (int i = 0; i < n; i++) {
+                sb.append(a);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 2713
+     *
+     * @param num
+     * @return
+     */
+    public String removeTrailingZeros(String num) {
+        char[] arr = num.toCharArray();
+        int index = 0;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] != '0') {
+                index = i;
+                break;
+            }
+        }
+        return num.substring(0, index + 1);
+    }
+
+    /**
+     * 2713
+     *
+     * @param operations
+     * @return
+     */
+    public int finalValueAfterOperations(String[] operations) {
+        int x = 0;
+        for (String op : operations) {
+            if (op.contains("+")) {
+                x++;
+            } else {
+                x--;
+            }
+        }
+        return x;
+    }
+
+    /**
+     * 1832
+     *
+     * @param sentence
+     * @return
+     */
+    public boolean checkIfPangram(String sentence) {
+        int[] result = new int[26];
+        char[] arr = sentence.toCharArray();
+        for (char c : arr) {
+            result[c - 'a'] += 1;
+        }
+        for (int i : result) {
+            if (i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int prefixCount(String[] words, String pref) {
+        int sum = 0;
+        for (String word : words) {
+            sum += word.startsWith(pref) ? 1 : 0;
+        }
+        return sum;
+    }
+
+    /**
+     * 1304
+     *
+     * @param n
+     * @return
+     */
+    public int[] sumZero(int n) {
+        if (n % 2 == 0) {
+            int l = n / 2;
+            int[] arr = new int[n];
+            for (int i = 0; i < l; i++) {
+                arr[2 * i] = i + 1;
+                arr[2 * i + 1] = -arr[2 * i];
+            }
+            return arr;
+        } else {
+            int l = (n - 1) / 2;
+            int[] arr = new int[n];
+            for (int i = 0; i < l; i++) {
+                arr[2 * i] = i + 1;
+                arr[2 * i + 1] = -arr[2 * i];
+            }
+            arr[n - 1] = 0;
+            return arr;
+        }
+    }
+
+    /**
+     * 2057
+     *
+     * @param nums
+     * @return
+     */
+    public int smallestEqual(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 10 == nums[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 2651
+     *
+     * @param arrivalTime
+     * @param delayedTime
+     * @return
+     */
+    public int findDelayedArrivalTime(int arrivalTime, int delayedTime) {
+        return (arrivalTime + delayedTime) % 24;
+    }
+
+    /**
+     * 922
+     *
+     * @param nums
+     * @return
+     */
+    public int[] sortArrayByParityII(int[] nums) {
+        int[] arr = new int[nums.length];
+        int i = 0, j = i + 1;
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                arr[i] = num;
+                i += 2;
+            } else {
+                arr[j] = num;
+                j += 2;
+            }
+        }
+        return arr;
+    }
+
+    public int[] rowAndMaximumOnes(int[][] mat) {
+        int count = 0;
+        int[] result = new int[2];
+        for (int i = 0; i < mat.length; i++) {
+            int tempCount=0;
+            for (int i1 : mat[i]) {
+                tempCount += i1;
+            }
+            if(tempCount>count){
+                result= new int[]{i, tempCount};
+                count=tempCount;
+            }
+        }
+        return result;
+    }
 
     public static void main(String[] args) {
+        System.out.println(new Easy().sortArrayByParityII(new int[]{4, 2, 5, 7}));
+
+        System.out.println(Arrays.toString(new Easy().sumZero(4)));
+
+        System.out.println(new Easy().tribonacci(4));
+
+
 //        int i = new Easy().numberOfMatches(7);
 //        System.out.println(i);
 //
 //        String str = "123";
 //        String substring = str.substring(3);
 //        System.out.println("demo:" + substring);
-        int[] arr = {1, 2, 3, 4, 5};
-        System.out.println(new Easy().findSubarrays(arr));
+//        int[] arr = {1, 2, 3, 4, 5};
+//        System.out.println(new Easy().findSubarrays(arr));
+        //System.out.println(new Easy().commonFactors(12, 6));
+        //System.out.println(new Easy().findMaxK(new int[]{-1, 2, -3, 3}));
+
+        // System.out.println(Arrays.toString(new Easy().shuffle(new int[]{2, 5, 1, 3, 4, 7}, 3)));
+
+        //  System.out.println(new Easy().countNegatives(new int[][]{{4, 3, 2, -1}, {3, 2, 1, -1}, {1, 1, -1, -2}, {-1, -1, -2, -3}}));
+
     }
+
+
 }

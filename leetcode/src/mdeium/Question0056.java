@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class Question56 {
+public class Question0056 {
     public static int[][] merge(int[][] intervals) {
         List<int[]> list = new ArrayList<>();
         Arrays.sort(intervals, (interval1, interval2) -> interval1[0] - interval2[0]);
