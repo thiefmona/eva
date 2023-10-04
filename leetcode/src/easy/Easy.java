@@ -837,24 +837,165 @@ public class Easy {
         int count = 0;
         int[] result = new int[2];
         for (int i = 0; i < mat.length; i++) {
-            int tempCount=0;
+            int tempCount = 0;
             for (int i1 : mat[i]) {
                 tempCount += i1;
             }
-            if(tempCount>count){
-                result= new int[]{i, tempCount};
-                count=tempCount;
+            if (tempCount > count) {
+                result = new int[]{i, tempCount};
+                count = tempCount;
             }
         }
         return result;
     }
 
+    /**
+     * 1486
+     *
+     * @param n
+     * @param start
+     * @return
+     */
+    public int xorOperation(int n, int start) {
+        int result = 0;
+        for (int i = 0; i < n; i++) {
+            result ^= start + 2 * i;
+        }
+        return result;
+    }
+
+    /**
+     * 1189
+     *
+     * @param text
+     * @return
+     */
+    public int maxNumberOfBalloons(String text) {
+        int[] cnt = new int[5];
+        for (int i = 0; i < text.length(); ++i) {
+            char ch = text.charAt(i);
+            if (ch == 'b') {
+                cnt[0]++;
+            } else if (ch == 'a') {
+                cnt[1]++;
+            } else if (ch == 'l') {
+                cnt[2]++;
+            } else if (ch == 'o') {
+                cnt[3]++;
+            } else if (ch == 'n') {
+                cnt[4]++;
+            }
+        }
+        cnt[2] /= 2;
+        cnt[3] /= 2;
+        return Arrays.stream(cnt).min().getAsInt();
+    }
+
+    /**
+     * 2652
+     *
+     * @param n
+     * @return
+     */
+    public int sumOfMultiples(int n) {
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            if (n % 3 == 0 || n % 5 == 0 || n % 7 == 0) {
+                res += n;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 1979
+     *
+     * @param nums
+     * @return
+     */
+    public int findGCD(int[] nums) {
+        Arrays.sort(nums);
+        int min = nums[0], max = nums[nums.length - 1];
+
+        int ans = 1;
+        for (int i = 1; i <= min; i++) {
+            if (min % i == 0 && max % i == 0) {
+                ans = i;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 2341
+     *
+     * @param nums
+     * @return
+     */
+    public int[] numberOfPairs(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int[] ans = new int[2];
+        int value = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            value = entry.getValue();
+            ans[0] += value / 2;
+            ans[1] += value % 2;
+        }
+        return ans;
+    }
+
+    /**
+     * 2418
+     *
+     * @param names
+     * @param heights
+     * @return
+     */
+    public String[] sortPeople(String[] names, int[] heights) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < heights.length; i++) {
+            map.put(heights[i], i);
+        }
+
+        Arrays.sort(heights);
+        String[] ans = new String[names.length];
+        for (int i = ans.length - 1; i >= 0; i--) {
+            ans[ans.length - i - 1] = names[map.get(heights[i])];
+        }
+        return ans;
+    }
+
+    /**
+     * 1165
+     *
+     * @param keyboard
+     * @param word
+     * @return
+     */
+    public int calculateTime(String keyboard, String word) {
+        char[] arr = word.toCharArray();
+        int steps = 0;
+        for (int i = 1; i < arr.length; i++) {
+            steps += Math.abs(keyboard.indexOf(arr[i]) - keyboard.indexOf(arr[i - 1]));
+        }
+        steps+=keyboard.indexOf(arr[0]);
+        return steps;
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(new Easy().sortArrayByParityII(new int[]{4, 2, 5, 7}));
+        String[] names = {"Mary", "John", "Emma"};
+        int[] heights = {180, 165, 170};
 
-        System.out.println(Arrays.toString(new Easy().sumZero(4)));
-
-        System.out.println(new Easy().tribonacci(4));
+        System.out.println(Arrays.toString(new Easy().sortPeople(names, heights)));
+//        System.out.println(new Easy().sortArrayByParityII(new int[]{4, 2, 5, 7}));
+//
+//        System.out.println(Arrays.toString(new Easy().sumZero(4)));
+//
+//        System.out.println(new Easy().tribonacci(4));
 
 
 //        int i = new Easy().numberOfMatches(7);
