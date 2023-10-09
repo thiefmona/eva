@@ -539,9 +539,136 @@ public class Similar {
         return ans;
     }
 
+    /**
+     * 2465
+     *
+     * @param nums
+     * @return
+     */
+    public int distinctAverages(int[] nums) {
+        // 数组排序
+        Arrays.sort(nums);
+        // 记录两个数的和 避免除丢失精度
+        Set<Integer> set = new HashSet<>();
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            set.add(nums[i] + nums[j]);
+            i++;
+            j--;
+        }
+        return set.size();
+    }
+
+    /**
+     * 1748
+     *
+     * @param nums
+     * @return
+     */
+    public int sumOfUnique(int[] nums) {
+        return Arrays.stream(nums).boxed().collect(Collectors.groupingBy(Objects::toString, Collectors.counting()))
+                .entrySet().stream().filter(entry -> entry.getValue() == 1).map(entry -> Integer.valueOf(entry.getKey())).reduce(Integer::sum).orElse(0);
+    }
+
+    /**
+     * 1941
+     *
+     * @param s
+     * @return
+     */
+    public boolean areOccurrencesEqual(String s) {
+        char[] arr = s.toCharArray();
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : arr) {
+            map.merge(c, 1, Integer::sum);
+        }
+        return new HashSet<>(map.values()).size() == 1;
+    }
+
+    /**
+     * 2315
+     *
+     * @param s
+     * @return
+     */
+    public int countAsterisks(String s) {
+        // 建立标识
+        char[] arr = s.toCharArray();
+        int count = 0;
+        boolean flag = false;
+        for (char c : arr) {
+            if (c == '|') {
+                flag = !flag;
+            } else {
+                count += (!flag && c == '*') ? 1 : 0;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 2016
+     *
+     * @param nums
+     * @return
+     */
+    public int maximumDifference(int[] nums) {
+        int ans = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                ans = Math.max(nums[j] - nums[i], ans);
+            }
+        }
+        return ans > 0 ? ans : -1;
+    }
+
+    /**
+     * 1668
+     *
+     * @param sequence
+     * @param word
+     * @return
+     */
+    public int maxRepeating(String sequence, String word) {
+        int ans = 0;
+        StringBuilder sb = new StringBuilder();
+        while (true) {
+            sb.append(word);
+            if (sequence.contains(sb.toString())) {
+                ans++;
+            } else {
+                return ans;
+            }
+        }
+    }
+
+    /**
+     * 2284
+     *
+     * @param messages
+     * @param senders
+     * @return
+     */
+    public String largestWordCount(String[] messages, String[] senders) {
+        HashMap<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < messages.length; i++) {
+            map.merge(senders[i], messages[i].split(" ").length, Integer::sum);
+        }
+        String name="";
+        int count=0;
+        // 字符串比较使用compareTo方法
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if(entry.getValue()>count || (entry.getValue()==count && entry.getKey().compareTo(name)>0)){
+                count=entry.getValue();
+                name=entry.getKey();
+            }
+        }
+        return name;
+    }
+
 
     public static void main(String[] args) {
-        int[] arr = {3,3,3,3,5,5,5,2,2,7};
+        int[] arr = {3, 3, 3, 3, 5, 5, 5, 2, 2, 7};
         System.out.println(new Similar().minSetSize(arr));
         int[][] brackets = {{3, 50}, {7, 10}, {12, 25}};
         int income = 10;
