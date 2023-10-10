@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.time.chrono.JapaneseEra.values;
+
 public class Similar {
     public int mostFrequentEven(int[] nums) {
         Arrays.sort(nums);
@@ -654,16 +656,144 @@ public class Similar {
         for (int i = 0; i < messages.length; i++) {
             map.merge(senders[i], messages[i].split(" ").length, Integer::sum);
         }
-        String name="";
-        int count=0;
+        String name = "";
+        int count = 0;
         // 字符串比较使用compareTo方法
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            if(entry.getValue()>count || (entry.getValue()==count && entry.getKey().compareTo(name)>0)){
-                count=entry.getValue();
-                name=entry.getKey();
+            if (entry.getValue() > count || (entry.getValue() == count && entry.getKey().compareTo(name) > 0)) {
+                count = entry.getValue();
+                name = entry.getKey();
             }
         }
         return name;
+    }
+
+    /**
+     * 1118
+     *
+     * @param year
+     * @param month
+     * @return
+     */
+    public int numberOfDays(int year, int month) {
+        int number = 0;
+        switch (month) {
+            case 1:
+                number = 31;
+                break;
+            case 2:
+                // 闰年定义 能被4整除且不能被100整除 或者 能被400整除
+                if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                    number = 29;
+                } else {
+                    number = 28;
+                }
+                break;
+            case 3:
+                number = 31;
+                break;
+            case 4:
+                number = 30;
+                break;
+            case 5:
+                number = 31;
+                break;
+            case 6:
+                number = 30;
+                break;
+            case 7:
+                number = 31;
+                break;
+            case 8:
+                number = 31;
+                break;
+            case 9:
+                number = 30;
+                break;
+            case 10:
+                number = 31;
+                break;
+            case 11:
+                number = 30;
+                break;
+            case 12:
+                number = 31;
+                break;
+            default:
+                throw new IllegalArgumentException();
+
+        }
+        return number;
+
+    }
+
+    /**
+     * 844
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean backspaceCompare(String s, String t) {
+        return formatStr(s).equals(formatStr(t));
+    }
+
+    private String formatStr(String str) {
+        char[] arr = str.toCharArray();
+        // StringBuilder删除字符可以使用deleteCharAt实现
+        StringBuilder sb = new StringBuilder();
+        for (char c : arr) {
+            if (c == '*') {
+                // 考虑下边界情况
+                if (sb.length() != 0) {
+                    sb.deleteCharAt(sb.length() - 1);
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 1800
+     *
+     * @param nums
+     * @return
+     */
+    public int maxAscendingSum(int[] nums) {
+        int max = 0;
+        int i = 0, len = nums.length;
+        // 数组分组 遍历比较
+        while (i < len) {
+            int sum = 0;
+            sum += nums[i];
+            i++;
+            // 判断是否严格升序 是的话 sum累加 i自增
+            while (i < len && nums[i] - nums[i - 1] > 0) {
+                sum += nums[i++];
+            }
+            max = Math.max(sum, max);
+        }
+        return max;
+    }
+
+    /**
+     * 1725
+     *
+     * @param rectangles
+     * @return
+     */
+    public int countGoodRectangles(int[][] rectangles) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int[] ints : rectangles) {
+            map.merge(Math.min(ints[0], ints[1]), 1, Integer::sum);
+        }
+        int area = Integer.MIN_VALUE;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            area = Math.max(area, entry.getKey());
+        }
+        return map.get(area);
     }
 
 
