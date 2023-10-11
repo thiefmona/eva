@@ -796,6 +796,149 @@ public class Similar {
         return map.get(area);
     }
 
+    /**
+     * 1134
+     *
+     * @param n
+     * @return
+     */
+    public boolean isArmstrong(int n) {
+        List<Integer> list = new ArrayList<>();
+        int num = n;
+        while (n > 0) {
+            list.add(n % 10);
+            n /= 10;
+        }
+        int sum = 0;
+        for (Integer i : list) {
+            // 次方
+            sum += (int) Math.pow(i, list.size());
+        }
+        return sum == num;
+    }
+
+    /**
+     * 1967
+     *
+     * @param patterns
+     * @param word
+     * @return
+     */
+    public int numOfStrings(String[] patterns, String word) {
+        return (int) Arrays.stream(patterns).filter(word::contains).count();
+    }
+
+    /**
+     * 1492
+     *
+     * @param n
+     * @param k
+     * @return
+     */
+    public int kthFactor(int n, int k) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i <= n / 2; i++) {
+            if (n % i == 0) {
+                list.add(i);
+            }
+        }
+        if (n >= 1) {
+            list.add(n);
+        }
+
+        if (list.size() < k) {
+            return -1;
+        } else {
+            return list.get(k - 1);
+        }
+    }
+
+    /**
+     * 1184
+     *
+     * @param distance
+     * @param start
+     * @param destination
+     * @return
+     */
+    public int distanceBetweenBusStops(int[] distance, int start, int destination) {
+        int ans = 0;
+        int sum = 0;
+        // 模拟记录总的距离
+        for (int i : distance) {
+            sum += i;
+        }
+        // 判断大小 交换
+        if (destination < start) {
+            start ^= destination;
+            destination ^= start;
+            start ^= destination;
+        }
+        // 计算顺序前进的距离
+        for (int i = start; i < destination; i++) {
+            ans += distance[i];
+        }
+        // 比较顺序和逆序的值 取最小值
+        return Math.min(ans, sum - ans);
+    }
+
+    /**
+     * 2153
+     *
+     * @param nums
+     * @param original
+     * @return
+     */
+    public int findFinalValue(int[] nums, int original) {
+        Arrays.sort(nums);
+        if (nums[0] >= original || nums[nums.length - 1] <= original) {
+            return original;
+        }
+        while (original > nums[0] && original < nums[nums.length - 1]) {
+            original *= 2;
+        }
+        return original;
+    }
+
+    /**
+     * 2078
+     *
+     * @param colors
+     * @return
+     */
+    public int maxDistance(int[] colors) {
+        int ans = 0;
+        for (int i = 0; i < colors.length - 1; i++) {
+            int temp = 0;
+            for (int j = i + 1; j < colors.length; j++) {
+                if (colors[i] != colors[j]) {
+                    temp = j - i;
+                }
+            }
+            ans = Math.max(temp, ans);
+        }
+        return ans;
+    }
+
+    /**
+     * 2293
+     *
+     * @param nums
+     * @return
+     */
+    public int minMaxGame(int[] nums) {
+        int len = nums.length;
+        if (len == 1) {
+            return nums[0];
+        } else {
+            int[] arr = new int[len / 2];
+            for (int i = 0; i < arr.length; ) {
+                arr[i] = i % 2 == 0 ? Math.min(nums[2 * i], nums[2 * i++ + 1]) : Math.max(nums[2 * i], nums[2 * i++ + 1]);
+            }
+            return minMaxGame(arr);
+        }
+    }
+
 
     public static void main(String[] args) {
         int[] arr = {3, 3, 3, 3, 5, 5, 5, 2, 2, 7};

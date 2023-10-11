@@ -46,4 +46,32 @@ public class SimilarTest {
         int[][] arr={{5,8},{3,9},{3,12}};
         System.out.println(new Similar().countGoodRectangles(arr));
     }
+
+    @Test
+    public void isArmstrong() {
+        System.out.println(new Similar().isArmstrong(153));
+    }
+
+    @Test
+    public void kthFactor() {
+        System.out.println(new Similar().kthFactor(1,1));
+    }
+
+    @Test
+    public void addToArrayForm() {
+       int[] num= {9,9,9,9,9,9,9,9,9,9};
+       // System.out.println(new Similar().addToArrayForm(num,1));
+    }
+
+    @Test
+    public void maxDistance() {
+        int[] colors={1,1,1,6,1,1,1};
+        System.out.println(new Similar().maxDistance(colors));
+    }
+
+    @Test
+    public void minMaxGame() {
+        int[] arr={1,3,5,2,4,8,2,2};
+        System.out.println(new Similar().minMaxGame(arr));
+    }
 }
