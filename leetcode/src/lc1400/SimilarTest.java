@@ -74,4 +74,33 @@ public class SimilarTest {
         int[] arr={1,3,5,2,4,8,2,2};
         System.out.println(new Similar().minMaxGame(arr));
     }
+
+    @Test
+    public void greatestLetter() {
+        System.out.println(new Similar().greatestLetter("lEeTcOdE"));
+    }
+
+    @Test
+    public void twoSumLessThanK() {
+        int[] nums={34,23,1,24,75,33,54,8};
+        System.out.println(new Similar().twoSumLessThanK(nums,60));
+    }
+
+
+    @Test
+    public void getCommon() {
+        int[] nums1={1,2,3,6};
+        int[] nums2={5};
+        System.out.println(new Similar().getCommon(nums1,nums2));
+    }
+
+    @Test
+    public void minSteps() {
+        System.out.println(new Similar().minSteps("leetcode","coats"));
+    }
+
+    @Test
+    public void digitCount() {
+        System.out.println(new Similar().digitCount("1210"));
+    }
 }

@@ -939,6 +939,273 @@ public class Similar {
         }
     }
 
+    /**
+     * 2347
+     *
+     * @param ranks
+     * @param suits
+     * @return
+     */
+    public String bestHand(int[] ranks, char[] suits) {
+        // 先判断同花
+        boolean flag = true;
+        for (int i = 0; i < suits.length - 1; i++) {
+            if (suits[i] != suits[i + 1]) {
+                flag = false;
+                break;
+            }
+        }
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int rank : ranks) {
+            map.merge(rank, 1, Integer::sum);
+        }
+        int i = map.values().stream().max(Integer::compare).orElse(1);
+        return flag ? "Flush" : i >= 3 ? "Three of a Kind" : i == 2 ? "Pair" : "High Card";
+    }
+
+
+    /**
+     * 2309
+     *
+     * @param s
+     * @return
+     */
+    public String greatestLetter(String s) {
+        char[] arr = s.toCharArray();
+        Set<Character> set = new HashSet<>();
+        for (char c : arr) {
+            set.add(c);
+        }
+        for (int i = 25; i >= 0; i--) {
+            if (set.contains((char) (i + 'A')) && set.contains((char) (i + 'a'))) {
+                return String.valueOf((char) (i + 'A'));
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 2716
+     *
+     * @param s
+     * @return
+     */
+    public int minimizedStringLength(String s) {
+        return s.chars().boxed().collect(Collectors.toSet()).size();
+    }
+
+    /**
+     * 0832
+     *
+     * @param image
+     * @return
+     */
+    public int[][] flipAndInvertImage(int[][] image) {
+        for (int[] arr : image) {
+            for (int i = 0, j = arr.length - 1; i <= j; i++, j--) {
+                // 可以用1-当前值 或者用异或
+                int temp = arr[j];
+                arr[j] = arr[i] == 1 ? 0 : 1;
+                arr[i] = temp == 1 ? 0 : 1;
+            }
+        }
+        return image;
+    }
+
+    /**
+     * 1228
+     *
+     * @param arr
+     * @return
+     */
+    public int missingNumber(int[] arr) {
+        int interval = (arr[arr.length - 1] - arr[0]) / arr.length;
+        int number = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            number += interval;
+            if (arr[i] != number) {
+                return number;
+            }
+        }
+        // 存在差值为零的等差数列
+        return number;
+    }
+
+    /**
+     * 1099
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int twoSumLessThanK(int[] nums, int k) {
+        // 排序后倒序遍历
+        Arrays.sort(nums);
+        int sum = 0;
+        int result = -1;
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            sum = nums[i] + nums[j];
+            if (sum >= k) {
+                j--;
+            } else {
+                result = Math.max(result, sum);
+                i++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 2481
+     *
+     * @param n
+     * @return
+     */
+    public int numberOfCuts(int n) {
+        // 分类讨论
+        return n == 1 ? 1 : n % 2 == 0 ? n / 2 : n;
+    }
+
+    /**
+     * 1876
+     *
+     * @param s
+     * @return
+     */
+    public int countGoodSubstrings(String s) {
+        // 暴力遍历
+        char[] arr = s.toCharArray();
+        int ans = 0;
+        for (int i = 0; i < arr.length - 2; i++) {
+            if (arr[i] != arr[i + 1] && arr[i] != arr[i + 2] && arr[i + 1] != arr[i + 2]) {
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 2279
+     *
+     * @param capacity
+     * @param rocks
+     * @param additionalRocks
+     * @return
+     */
+    public int maximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+        // 构建新数组 值为capacity-rock
+        // 不修改原数组了 e-e
+        int[] arr = new int[capacity.length];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = capacity[i] - rocks[i];
+        }
+        // 排序下数组
+        Arrays.sort(arr);
+        int ans = 0;
+        // 判断剩余额外石头数量
+        for (int j : arr) {
+            if (additionalRocks < j) {
+                break;
+            }
+            additionalRocks -= j;
+            ans++;
+        }
+        return ans;
+    }
+
+    /**
+     * 2540
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int getCommon(int[] nums1, int[] nums2) {
+        // 双指针遍历
+        int i = 0, j = 0;
+        while (i < nums1.length && j < nums2.length) {
+            if (nums1[i] < nums2[j]) {
+                i++;
+            } else if (nums1[i] > nums2[j]) {
+                j++;
+            } else {
+                return nums1[i];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 1833
+     *
+     * @param costs
+     * @param coins
+     * @return
+     */
+    public int maxIceCream(int[] costs, int coins) {
+        int ans = 0;
+        Arrays.sort(costs);
+        for (int cost : costs) {
+            if (coins >= cost) {
+                coins -= cost;
+                ans++;
+            } else {
+                break;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 2186
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public int minSteps(String s, String t) {
+        // 组成新数组 记录各字符串中字母出现次数
+        int[] arr1 = new int[26];
+        int[] arr2 = new int[26];
+        for (char c : s.toCharArray()) {
+            arr1[c - 'a'] += 1;
+        }
+
+        for (char c : t.toCharArray()) {
+            arr2[c - 'a'] += 1;
+        }
+        int ans = 0;
+        // 遍历 计算出需要追加的字母次数
+        for (int i = 0; i < arr1.length; i++) {
+            ans += Math.abs(arr1[i] - arr2[i]);
+        }
+        return ans;
+    }
+
+    /**
+     * 2283
+     *
+     * @param num
+     * @return
+     */
+    public boolean digitCount(String num) {
+        Map<Character, Integer> map = new HashMap<>();
+        char[] arr = num.toCharArray();
+        for (char c : arr) {
+            map.merge(c, 1, Integer::sum);
+        }
+        for (int i = 0; i < arr.length; i++) {
+            int c = arr[i]-'0';
+            Integer orDefault = map.getOrDefault((char) (i + '0'), 0);
+            if (c != orDefault) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
         int[] arr = {3, 3, 3, 3, 5, 5, 5, 2, 2, 7};
