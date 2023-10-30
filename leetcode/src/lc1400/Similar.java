@@ -2,9 +2,6 @@ package lc1400;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.time.chrono.JapaneseEra.values;
 
 public class Similar {
     public int mostFrequentEven(int[] nums) {
@@ -1197,13 +1194,438 @@ public class Similar {
             map.merge(c, 1, Integer::sum);
         }
         for (int i = 0; i < arr.length; i++) {
-            int c = arr[i]-'0';
+            int c = arr[i] - '0';
             Integer orDefault = map.getOrDefault((char) (i + '0'), 0);
             if (c != orDefault) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * 1945
+     *
+     * @param s
+     * @param k
+     * @return
+     */
+    public int getLucky(String s, int k) {
+        char[] arr = s.toCharArray();
+        int count = 0;
+        int sum = 0;
+        StringBuilder sb = new StringBuilder();
+        for (char c : arr) {
+            sb.append(c - 'a' + 1);
+        }
+        char[] array = sb.toString().toCharArray();
+        for (char c : array) {
+            sum += c - '0';
+        }
+        count += 1;
+        while (count < k) {
+            sum = divideNum(sum);
+            count++;
+        }
+        return sum;
+    }
+
+    private int divideNum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    /**
+     * 2180
+     *
+     * @param num
+     * @return
+     */
+    public int countEven(int num) {
+        int ans = 0;
+        int i = 1;
+        while (i <= num) {
+            int sum = 0;
+            int temp = i;
+            while (temp > 0) {
+                sum += temp % 10;
+                temp /= 10;
+            }
+            if (sum % 2 == 0) {
+                ans++;
+            }
+            i++;
+        }
+        return ans;
+    }
+
+    /**
+     * 1309
+     *
+     * @param s
+     * @return
+     */
+    public String freqAlphabets(String s) {
+        // 倒序遍历处理
+        char[] arr = s.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        int num = 0;
+        for (int i = arr.length - 1; i >= 0; ) {
+            if (arr[i] == '#') {
+                num = (arr[i - 2] - '0') * 10 + (arr[i - 1] - '0');
+                sb.append((char) (num - 1 + 'a'));
+                i -= 3;
+            } else {
+                num = arr[i] - '0';
+                sb.append((char) (num - 1 + 'a'));
+                i--;
+            }
+        }
+        return sb.reverse().toString();
+    }
+
+    /**
+     * 2103
+     *
+     * @param rings
+     * @return
+     */
+    public int countPoints(String rings) {
+        char[] arr = rings.toCharArray();
+        HashMap<Character, Set<Character>> map = new HashMap<>();
+        for (int i = 0; i < arr.length; i += 2) {
+            Set<Character> set = map.getOrDefault(arr[i + 1], new HashSet<>());
+            set.add(arr[i]);
+            map.put(arr[i + 1], set);
+        }
+        int count = 0;
+        for (Map.Entry<Character, Set<Character>> entry : map.entrySet()) {
+            count += (entry.getValue().size() == 3) ? 1 : 0;
+        }
+        return count;
+    }
+
+    /**
+     * 0884
+     *
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public String[] uncommonFromSentences(String s1, String s2) {
+        String[] arr1 = s1.split(" ");
+        String[] arr2 = s2.split(" ");
+        HashMap<String, Integer> map = new HashMap<>();
+        for (String s : arr1) {
+            map.merge(s, 1, Integer::sum);
+        }
+        for (String s : arr2) {
+            map.merge(s, 1, Integer::sum);
+        }
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == 1) {
+                list.add(entry.getKey());
+            }
+        }
+        String[] ans = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            ans[i] = list.get(i);
+        }
+        return ans;
+    }
+
+
+    /**
+     * 1779
+     *
+     * @param x
+     * @param y
+     * @param points
+     * @return
+     */
+    public int nearestValidPoint(int x, int y, int[][] points) {
+        int ans = -1;
+        int distance = Integer.MAX_VALUE;
+        for (int i = 0; i < points.length; i++) {
+            int w = points[i][0];
+            int h = points[i][1];
+            if (w == x || h == y) {
+                int interval = 0;
+                if (w == x) {
+                    interval = Math.abs(y - h);
+                } else {
+                    interval = Math.abs(w - x);
+                }
+                if (interval < distance) {
+                    distance = interval;
+                    ans = i;
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 2562
+     *
+     * @param nums
+     * @return
+     */
+    public long findTheArrayConcVal(int[] nums) {
+        long ans = 0;
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            StringBuilder sb = new StringBuilder();
+            if (left < right) {
+                sb.append(nums[left]).append(nums[right]);
+            } else {
+                sb.append(nums[left]);
+            }
+            ans += Long.parseLong(sb.toString());
+            left++;
+            right--;
+        }
+        return ans;
+    }
+
+
+    /**
+     * 2250
+     *
+     * @param num
+     * @return
+     */
+    public int countDigits(int num) {
+        // 存取一个数做临时变量
+        int temp = num;
+        int ans = 0;
+        while (temp > 0) {
+            int divide = temp % 10;
+            ans += num % divide == 0 ? 1 : 0;
+            temp /= 10;
+        }
+        return ans;
+    }
+
+    /**
+     * 2255
+     *
+     * @param words
+     * @param s
+     * @return
+     */
+    public int countPrefixes(String[] words, String s) {
+        // 直接调用库函数
+        int ans = 0;
+        for (String word : words) {
+            ans += s.startsWith(word) ? 1 : 0;
+        }
+        return ans;
+    }
+
+    /**
+     * 2144
+     *
+     * @param cost
+     * @return
+     */
+    public int minimumCost(int[] cost) {
+        int ans = 0;
+        // 排序
+        Arrays.sort(cost);
+        int interval = 0;
+        // 设立步长 步长为3 置空
+        for (int i = cost.length - 1; i >= 0; ) {
+            interval = interval == 3 ? 0 : interval;
+            ans += interval == 2 ? 0 : cost[i];
+            i--;
+            interval++;
+        }
+        return ans;
+
+        // 倒序排序 用i取余
+//        for (int i = 0; i < n; ++i) {
+//            if (i % 3 != 2) {
+//                res += cost[i];
+//            }
+//        }
+    }
+
+
+    /**
+     * 2490
+     *
+     * @param sentence
+     * @return
+     */
+    public boolean isCircularSentence(String sentence) {
+        String[] arr = sentence.split(" ");
+        for (int i = 0; i < arr.length - 1; i++) {
+            String cur = arr[i];
+            String next = arr[i + 1];
+            if (cur.charAt(cur.length() - 1) != next.charAt(0)) {
+                return false;
+            }
+        }
+        return arr[arr.length - 1].charAt(arr[arr.length - 1].length() - 1) == arr[0].charAt(0);
+
+        // 直接使用句子里遍历
+//        if (sentence.charAt(sentence.length() - 1) != sentence.charAt(0)) {
+//            return false;
+//        }
+//        for (int i = 0; i < sentence.length(); i++) {
+//            if (sentence.charAt(i) == ' ' && sentence.charAt(i + 1) != sentence.charAt(i - 1)) {
+//                return false;
+//            }
+//        }
+//        return true;
+    }
+
+    /**
+     * 1726
+     *
+     * @param time
+     * @return
+     */
+    public String maximumTime(String time) {
+        char[] arr = time.toCharArray();
+        arr[4] = arr[4] == '?' ? '9' : arr[4];
+        arr[3] = arr[3] == '?' ? '5' : arr[3];
+        if (arr[0] == '?' && arr[1] == '?') {
+            arr[0] = '2';
+            arr[1] = '3';
+        } else {
+            arr[0] = arr[0] == '?' ? arr[1] > '3' ? '1' : '2' : arr[0];
+            arr[1] = arr[1] == '?' ? arr[0] == '2' ? '3' : '9' : arr[1];
+        }
+        return new String(arr);
+    }
+
+    /**
+     * 2670
+     *
+     * @param nums
+     * @return
+     */
+    public int[] distinctDifferenceArray(int[] nums) {
+        Set<Integer> pre = new HashSet<>();
+        Set<Integer> suf = new HashSet<>();
+        int[] preArr = new int[nums.length];
+        int[] sufArr = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            pre.add(nums[i]);
+            preArr[i] = pre.size();
+        }
+        for (int i = nums.length - 2; i >= 0; i--) {
+            suf.add(nums[i + 1]);
+            sufArr[i] = suf.size();
+        }
+        int[] ans = new int[nums.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = preArr[i] - sufArr[i];
+        }
+        return ans;
+    }
+
+    /**
+     * 1282
+     *
+     * @param groupSizes
+     * @return
+     */
+    public List<List<Integer>> groupThePeople(int[] groupSizes) {
+        List<List<Integer>> ans = new ArrayList<>();
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < groupSizes.length; i++) {
+            List<Integer> list = map.getOrDefault(groupSizes[i], new ArrayList<>());
+            list.add(i);
+            map.put(groupSizes[i], list);
+        }
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            Integer key = entry.getKey();
+            List<Integer> list = entry.getValue();
+            int k = list.size() / key;
+            for (int i = 0; i < k; i++) {
+                ans.add(list.subList(key * i, (i + 1) * key));
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 2325
+     *
+     * @param key
+     * @param message
+     * @return
+     */
+    public String decodeMessage(String key, String message) {
+        HashMap<Character, Character> secrets = new HashMap<>();
+        int sk = 0;
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if (c != ' ') {
+                if (!secrets.containsKey(c)) {
+                    secrets.put(c, (char) (sk++ + 'a'));
+                }
+            }
+            if (secrets.size() == 26) {
+                break;
+            }
+        }
+        secrets.put(' ', ' ');
+        StringBuilder sb = new StringBuilder();
+        for (char c : message.toCharArray()) {
+            sb.append(secrets.get(c));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 1447
+     *
+     * @param n
+     * @return
+     */
+    public List<String> simplifiedFractions(int n) {
+        if (n == 1) {
+            return new ArrayList<>();
+        }
+        List<String> ans = new ArrayList<>();
+        // 分子和分母没有公因数
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j <= i - 1; j++) {
+                if (check(j,i)) {
+                    ans.add(j + "/" + i);
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 判断是否存在
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public boolean check(int a, int b) {
+        for (int i = 2; i <= b / 2; i++) {
+            if (a % i == 0 && b%i==0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int gcd(int a, int b) {
+        return b != 0 ? gcd(b, a % b) : a;
     }
 
 

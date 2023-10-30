@@ -103,4 +103,55 @@ public class SimilarTest {
     public void digitCount() {
         System.out.println(new Similar().digitCount("1210"));
     }
+
+    @Test
+    public void getLucky() {
+        System.out.println(new Similar().getLucky("leetcode",2));
+    }
+
+    @Test
+    public void freqAlphabets() {
+        String s = "10#11#12";
+        System.out.println(new Similar().freqAlphabets(s));
+    }
+
+    @Test
+    public void findTheArrayConcVal() {
+        int[] nums = {7,52,2,4};
+        System.out.println(new Similar().findTheArrayConcVal(nums));
+    }
+
+    @Test
+    public void countDigits() {
+        int num=121;
+        System.out.println(new Similar().countDigits(num));
+    }
+
+    @Test
+    public void minimumCost() {
+        int[] cost={1,2,3};
+        System.out.println(new Similar().minimumCost(cost));
+    }
+
+    @Test
+    public void maximumTime() {
+        String time = "1?:22";
+        System.out.println(new Similar().maximumTime(time));
+    }
+
+    @Test
+    public void groupThePeople() {
+        int[] groupSizes={3,3,3,3,3,1,3};
+        System.out.println(new Similar().groupThePeople(groupSizes));
+    }
+
+    @Test
+    public void simplifiedFractions() {
+        System.out.println(new Similar().simplifiedFractions(6));
+    }
+
+    @Test
+    public void gcd() {
+        System.out.println(new Similar().gcd(1,2));
+    }
 }
